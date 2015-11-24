@@ -1,5 +1,13 @@
+import DBInteractions
+import CsvInteractions
+from pymongo import MongoClient
 
+DB = DBInteractions.DBInteractions()
+CSV = CsvInteractions.CsvInteractions()
 
+uri = ('mongodb://oteken:lol123123@ds047484.mongolab.com:47484/citygis')
+client = MongoClient(uri)
+db = client.citygis
 
 connectionsTable = db.connections
 connectionsCsvFilePath = 'D:/Oteken/School/INF/Jaar 2/Periode 1/Project 5 6/connections.csv'
@@ -10,34 +18,14 @@ eventsCsvFilePath = 'D:/Oteken/School/INF/Jaar 2/Periode 1/Project 5 6/events.cs
 positionsTable = db.positions
 positionsCsvFilePath = 'D:/Oteken/School/INF/Jaar 2/Periode 1/Project 5 6/positions.csv'
 
-print("Reading Connections")
-csvData = readCsvFile(connectionsCsvFilePath, ";")
-print("Done Reading")
-csvHeader = readCsvHeader(connectionsCsvFilePath, ";")
-print("Inserting")
-insertCsvFile(connectionsTable, csvData, csvHeader)
-print("Done")
+def readAndInsert(filePath, table):
+    csvData = CSV.readCsvFile(filePath, ";")
+    csvHeader = CSV.readCsvHeader(filePath, ";")
+    DB.insertList(table, csvData, csvHeader)
 
-print("Reading Monitoring")
-csvData = readCsvFile(monitoringCsvFilePath, ";")
-print("Done Reading")
-csvHeader = readCsvHeader(monitoringCsvFilePath, ";")
-print("Inserting")
-insertCsvFile(monitoringTable, csvData, csvHeader)
-print("Done")
+readAndInsert(connectionsCsvFilePath, connectionsTable)
+readAndInsert(monitoringCsvFilePath, monitoringTable)
+readAndInsert(eventsCsvFilePath, eventsTable)
+readAndInsert(positionsCsvFilePath, positionsTable)
 
-print("Reading Events")
-csvData = readCsvFile(eventsCsvFilePath, ";")
-print("Done Reading")
-csvHeader = readCsvHeader(eventsCsvFilePath, ";")
-print("Inserting")
-insertCsvFile(eventsTable, csvData, csvHeader)
-print("Done")
 
-print("Reading Positions")
-csvData = readCsvFile(positionsCsvFilePath, ";")
-print("Done Reading")
-csvHeader = readCsvHeader(positionsCsvFilePath, ";")
-print("Inserting")
-insertCsvFile(positionsTable, csvData, csvHeader)
-print("yay")

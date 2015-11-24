@@ -2,7 +2,7 @@ import csv
 
 class CsvInteractions:
 
-    def readCsvFile(filePath, delimiter):
+    def readCsvFile(self, filePath, delimiter):
         with open(filePath) as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
 
@@ -14,7 +14,7 @@ class CsvInteractions:
 
         return csvDataList;
 
-    def readCsvHeader(filePath, delimiter):
+    def readCsvHeader(self, filePath, delimiter):
         with open(filePath) as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
 
