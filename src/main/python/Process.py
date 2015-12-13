@@ -1,13 +1,9 @@
-import DBInteractions
-import CsvInteractions
-from pymongo import MongoClient
 import csv
 import datetime
 
-DB = DBInteractions.DBInteractions()
-CSV = CsvInteractions.CsvInteractions()
+from pymongo import MongoClient
 
-uri = ('mongodb://localhost:27017/')
+uri = ('mongodb://145.24.222.219:27017/')
 client = MongoClient(uri)
 db = client.citygis
 
