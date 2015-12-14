@@ -109,3 +109,5 @@ def printDocuments():
 
     for document in cursor:
         print(document)
+
+#test
