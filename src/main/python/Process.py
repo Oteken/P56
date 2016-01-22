@@ -3,15 +3,17 @@ import datetime
 
 from pymongo import MongoClient
 
-uri = ('mongodb://145.24.222.219:27017/')
+uri = ('mongodb://<ip>:<port>/')
 client = MongoClient(uri)
 db = client.citygis
 
+# Path to all csv files
 connectionsCsvFilePath = 'C:/Users/0895642/Downloads/CSV Files/connections.csv'
 monitoringCsvFilePath = 'C:/Users/0895642/Downloads/CSV Files/monitoring.csv'
 eventsCsvFilePath = 'C:/Users/0895642/Downloads/CSV Files/events.csv'
 positionsCsvFilePath = 'C:/Users/0895642/Downloads/CSV Files/positions.csv'
 
+# Predefined the data types of the csv tables, because casting the data types would take longer.
 connectionsDataTypes = ["date", "string", "string", "int"]
 monitoringDataTypes = ["string", "date", "date", "string", "float", "float", "float"]
 eventsDataTypes = ["date", "string", "string", "string", "int"]
@@ -22,6 +24,7 @@ monitoringTable = db.monitoring
 eventsTable = db.events
 positionsTable = db.positions
 
+# Inserts every row right after reading.
 def fastInsert(filePath, delimiter, table, dataTypes):
     with open(filePath) as csvfile:
         reader = csv.reader(csvfile, delimiter=delimiter)
@@ -104,8 +107,4 @@ def insertCommand():
     fastInsert(positionsCsvFilePath, ";", positionsTable, positionsDataTypes)
     print('done')
 
-def printDocuments():
-    cursor = db.connections.find()
-
-    for document in cursor:
-        print(document)
+insertCommand()
