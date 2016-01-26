@@ -3,7 +3,7 @@ import datetime
 
 from pymongo import MongoClient
 
-uri = ('mongodb://<ip>:<port>/')
+uri = ('mongodb://localhost:27017/')
 client = MongoClient(uri)
 db = client.citygis
 
@@ -30,10 +30,11 @@ def fastInsert(filePath, delimiter, table, dataTypes):
         reader = csv.reader(csvfile, delimiter=delimiter)
         header = next(reader)
         i = 0
+        j = 1
         insertDict = {}
         for row in reader:
+            insertDict["_id"] = j
             i = 0
-            insertDict = {}
             for x in row:
 
                 if dataTypes[i] == "string":
@@ -45,6 +46,7 @@ def fastInsert(filePath, delimiter, table, dataTypes):
                 elif dataTypes[i] == "date":
                     insertDict[header[i]] = stringToDate(x)
                 i += 1
+            j += 1
             table.insert(insertDict)
 
 def stringToDate(string):
